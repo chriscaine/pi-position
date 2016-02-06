@@ -1,15 +1,21 @@
 var fs = require('fs');
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+//app.use(express.static('public'));
+
 app.get('/', function(req, res) {
-	res.sendFile('/root/apps/sense/index.html');
+	console.log('root', req);
+	res.sendFile('/root/pi-position/index.html');
+});
+app.get('/js/app.js', function(req, res) {
+	console.log('script', req);
+	res.sendFile('/root/pi-position/js/app.js');
 });
 
-http.listen(80, function() {
-   console.log('listening on *:80');
-});
+http.listen(80, '192.168.1.11');
 
 var nodeimu = require('./node_modules/nodeimu/out/NodeIMU');
 var Rx = require('rx');
