@@ -1,10 +1,29 @@
-﻿<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-    <title></title>
-	<meta charset="utf-8" />
-</head>
-<body>
+  <head>
+	<title>Socket.IO Position</title>
+	<meta name="viewport" value="width=device-width;initial-scale=1" />
+  </head>
+  <body>
+	<h1>Where am I?</h1>
+	
 
-</body>
+
+
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+	   var socket = io();
+	   var out = $('#time');
+           socket.on('message', function(msg) {
+		out.text(msg);
+	    });
+	 socket.on('data', function(data) {
+		console.log(data);
+	});
+	  
+
+	
+        </script>
+  </body>
 </html>
