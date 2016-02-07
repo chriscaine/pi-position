@@ -40,24 +40,19 @@
 	   var socket = io.connect('http://192.168.1.11');
 	   socket.on('data', function(data) {
 	       var val = data.fusionPose.x;
-	       val = val;
-	   
-	       console.log(Math.sin(val));
-
-	       var y1 = Math.sin(val) * 100;
+	       
 	       var x1 = Math.cos(val) * 100;
+	       var y1 = Math.sin(val) * 100;
+
+	       var x2 = Math.cos(Math.PI + val) * 100;
+	       var y2 = Math.sin(Math.PI + val) * 100;
            
-	       var y2 = Math.cos((2 * Math.PI) - val) * 100;
-	       var x2 = Math.sin((2 * Math.PI) - val) * 100;
-           
-	       var offset = Math.sin(val);
-
-	       yaw.setAttribute('y1', y1 - (50 * offset) + 50);
-	       yaw.setAttribute('y2', y2 - (50 * offset) + 50);
-
-	       yaw.setAttribute('x1', x1 + (50 * offset) + 150);
-	       yaw.setAttribute('x2', x2 + (50 * offset) + 150);
-
+	       var size = 100;
+	       yaw.setAttribute('x1', x1 + (size * 2));
+	       yaw.setAttribute('y1', y1 + size);
+	       
+	       yaw.setAttribute('x2', x2 + (size * 2));
+	       yaw.setAttribute('y2', y2 + size);
 
 	    });
 	  
