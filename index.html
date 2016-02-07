@@ -36,9 +36,13 @@
             });*/
           
 	   var socket = io();
+		var offset = 200 / 10;
 	   socket.on('data', function(data) {
-	       temp.setAttribute('height', Math.round(data.temperature * 2));
-	       temp.setAttribute('y', 200 - parseInt(temp.getAttribute('height')));
+
+		var val = data.fusionPose.x + 5;// data.temperature;
+		val = val * offset;
+	       temp.setAttribute('height', val);
+	       temp.setAttribute('y', 200 - val);
 	    });
 	  
 	 

@@ -7,11 +7,9 @@ var io = require('socket.io')(http);
 //app.use(express.static('public'));
 
 app.get('/', function(req, res) {
-	console.log('root', req);
 	res.sendFile('/root/pi-position/index.html');
 });
 app.get('/js/app.js', function(req, res) {
-	console.log('script', req);
 	res.sendFile('/root/pi-position/js/app.js');
 });
 
@@ -32,7 +30,7 @@ var print_vector3 = function(name, data) {
   return util.format('%s: %s%s %s%s %s%s ', name, sx, data.x.toFixed(4), sy, data.y.toFixed(4), sz, data.z.toFixed(4));
 }
 
-var timer$ = Rx.Observable.timer(0, 500);
+var timer$ = Rx.Observable.timer(0, 50);
 
 var value$ = timer$.flatMap(function(){
 	var deferred = Promise.defer();
