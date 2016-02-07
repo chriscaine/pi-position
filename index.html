@@ -23,26 +23,42 @@
           <line x1="10" x2="15" y1="200" y2="200" stroke="black" stroke-width="1" />
           <line x1="15" x2="385" y1="200" y2="200" stroke="black" stroke-width="2" />
           <rect id="temp" x="20" y="200" height="0" width="3" fill="#ff0000"/>
+
+          <line id="yaw" x1="50" x2="350" stroke="black"></line>
+
       </svg>
 
 	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-       <script src="/socket.io/socket.io.js"></script>
+       <script src="http://192.168.1.11/socket.io/socket.io.js"></script>
         <script>
             var temp = window.document.getElementById("temp");
-            /*$(function () {
-                var data = { temperature: 80 };
-                temp.setAttribute('height', Math.round(data.temperature * 2));
-                temp.setAttribute('y', 200 - parseInt(temp.getAttribute('height')));
-            });*/
+            var yaw = document.getElementById("yaw");
           
-	   var socket = io();
-		var offset = 200 / 10;
-	   socket.on('data', function(data) {
 
-		var val = data.fusionPose.x + 5;// data.temperature;
-		val = val * offset;
-	       temp.setAttribute('height', val);
-	       temp.setAttribute('y', 200 - val);
+          
+
+	   var socket = io.connect('http://192.168.1.11');
+	   socket.on('data', function(data) {
+	       var val = data.fusionPose.x;
+	       val = val;
+	   
+	       console.log(Math.sin(val));
+
+	       var y1 = Math.sin(val) * 100;
+	       var x1 = Math.cos(val) * 100;
+           
+	       var y2 = Math.cos((2 * Math.PI) - val) * 100;
+	       var x2 = Math.sin((2 * Math.PI) - val) * 100;
+           
+	       var offset = Math.sin(val);
+
+	       yaw.setAttribute('y1', y1 - (50 * offset) + 50);
+	       yaw.setAttribute('y2', y2 - (50 * offset) + 50);
+
+	       yaw.setAttribute('x1', x1 + (50 * offset) + 150);
+	       yaw.setAttribute('x2', x2 + (50 * offset) + 150);
+
+
 	    });
 	  
 	 
