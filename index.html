@@ -12,12 +12,12 @@
             color:#555;
         }
         div{
-            width: 350px;
-            height:250px;
+            width: 180px;
+            height:140px;
             border:solid 1px #e5e5e5;
             background:#fff;
-            padding:10px;
-            margin:5px;
+            padding:7px;
+            margin:4px;
             border-radius:5px;
             float:left;
             overflow:hidden;
@@ -29,43 +29,82 @@
     <h1>Pi Position</h1>
     <div>
         <h2>Fusion: X</h2>
-        <svg width="400" height="200">
-            <line id="fsX" x1="50" x2="350" stroke="black"></line>
+        <svg width="200" height="100">
+            <line id="fsX" x1="50" x2="100" stroke="black"></line>
         </svg>
     </div>
     <div>
     <h2>Fusion: Y</h2>
-    <svg width="400" height="200">
-        <line id="fsY" x1="50" x2="350" stroke="black"></line>
+    <svg width="200" height="100">
+        <line id="fsY" x1="50" x2="100" stroke="black"></line>
     </svg>
         </div>
     <div>
         <h2>Fusion: Z</h2>
-        <svg width="400" height="200">
-            <line id="fsZ" x1="50" x2="350" stroke="black"></line>
+        <svg width="200" height="100">
+            <line id="fsZ" x1="50" x2="100" stroke="black"></line>
         </svg>
     </div>
     <div>
-
-
         <h2>Gyro: X</h2>
-        <svg width="400" height="200">
-            <line id="gyX" x1="50" x2="350" stroke="black"></line>
+        <svg width="200" height="100">
+            <line id="gyX" x1="50" x2="100" stroke="black"></line>
         </svg>
     </div>
     <div>
         <h2>Gyro: Y</h2>
-        <svg width="400" height="200">
-            <line id="gyY" x1="50" x2="350" stroke="black"></line>
+        <svg width="200" height="100">
+            <line id="gyY" x1="50" x2="100" stroke="black"></line>
         </svg>
     </div>
     <div>
         <h2>Gyro: Z</h2>
-        <svg width="400" height="200">
-            <line id="gyZ" x1="50" x2="350" stroke="black"></line>
+        <svg width="200" height="100">
+            <line id="gyZ" x1="50" x2="100" stroke="black"></line>
         </svg>
     </div>
-
+    <div>
+        <h2>Accel: X</h2>
+        <svg width="200" height="100">
+            <line id="acX" x1="50" x2="100" stroke="black"></line>
+        </svg>
+    </div>
+    <div>
+        <h2>Accel: Y</h2>
+        <svg width="200" height="100">
+            <line id="acY" x1="50" x2="100" stroke="black"></line>
+        </svg>
+    </div>
+    <div>
+        <h2>Accel: Z</h2>
+        <svg width="200" height="100">
+            <line id="acZ" x1="50" x2="100" stroke="black"></line>
+        </svg>
+    </div>
+    <div>
+        <h2>Tilt HEading</h2>
+        <svg width="200" height="100">
+            <line id="tilt" x1="50" x2="100" stroke="black"></line>
+        </svg>
+    </div>
+    <div>
+        <h2>Compass: X</h2>
+        <svg width="200" height="100">
+            <line id="cmX" x1="50" x2="100" stroke="black"></line>
+        </svg>
+    </div>
+    <div>
+        <h2>Compass: Y</h2>
+        <svg width="200" height="100">
+            <line id="cmY" x1="50" x2="100" stroke="black"></line>
+        </svg>
+    </div>
+    <div>
+        <h2>Compass: Z</h2>
+        <svg width="200" height="100">
+            <line id="cmZ" x1="50" x2="100" stroke="black"></line>
+        </svg>
+    </div>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="http://192.168.1.11/socket.io/socket.io.js"></script>
     <script>
@@ -78,19 +117,31 @@
 
             gyX: [document.getElementById("gyX"), 'gyro', 'x'],
             gyY: [document.getElementById("gyY"), 'gyro', 'y'],
-            gyZ: [document.getElementById("gyZ"), 'gyro', 'z']
+            gyZ: [document.getElementById("gyZ"), 'gyro', 'z'],
+
+            acX: [document.getElementById("acX"), 'accel', 'x'],
+            acY: [document.getElementById("acY"), 'accel', 'y'],
+            acZ: [document.getElementById("acZ"), 'accel', 'z'],
+
+            cmX: [document.getElementById("cmX"), 'compass', 'x'],
+            cmY: [document.getElementById("cmY"), 'compass', 'y'],
+            cmZ: [document.getElementById("cmZ"), 'compass', 'z'],
+
+            tilt: [document.getElementById("tilt"), 'tiltHeading', null]
+
+
         }
 
 
 
 
         function setEl(el, val) {
-            var size = 100;
+            var size = 50;
             var points = {
-                x1: Math.cos(val) * 100,
-                y1: Math.sin(val) * 100,
-                x2: Math.cos(Math.PI + val) * 100,
-                y2: Math.sin(Math.PI + val) * 100
+                x1: Math.cos(val) * size,
+                y1: Math.sin(val) * size,
+                x2: Math.cos(Math.PI + val) * size,
+                y2: Math.sin(Math.PI + val) * size
             }
 
             el.setAttribute('x1', points.x1 + (size * 2));
@@ -106,7 +157,14 @@
 
             for (var key in obj) {
                 var item = obj[key];
-                setEl(item[0], data[item[1]][item[2]]);
+                var val;
+                if (item[2] === null) {
+                    val = data[item[1]];
+                } else {
+                    val = data[item[1]][item[2]];
+                }
+                
+                setEl(item[0], val);
             }
 
 
